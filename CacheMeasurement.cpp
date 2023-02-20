@@ -2,8 +2,6 @@
 #include <chrono>
 #include <algorithm>
 
-using namespace std;
-
 #pragma intrinsic(_umul128)
 
 uint64_t a = 42;
@@ -30,7 +28,7 @@ int main() {
 			data[r] = lehmer64() % INT_MAX;
 		}
 
-		chrono::steady_clock::time_point start, stop;
+		std::chrono::steady_clock::time_point start, stop;
 
 		int c = 0;
 		int counts = intsInSize * 10;
@@ -43,7 +41,7 @@ int main() {
 
 		for (int m = 0; m < mesCount; ++m) {
 
-			start = chrono::high_resolution_clock::now();
+			start = std::chrono::high_resolution_clock::now();
 
 			for (c = 0; c < counts; c++) {
 				// random access to data array
@@ -53,15 +51,15 @@ int main() {
 				cL += 1024 + (tmp + lehmer64()) & 1023;
 			}
 
-			stop = chrono::high_resolution_clock::now();
+			stop = std::chrono::high_resolution_clock::now();
 			mes[m] = (stop - start).count() / intsInSize;
 		}
 
 		// median of measure
-		sort(mes, &mes[mesCount]);
+		std::sort(mes, &mes[mesCount]);
 
 		// do not remove tmp from output, it gets optimized away if you do ;)
-		cout << mes[mesCount / 2] << " " << tmp << endl;
+		std::cout << mes[mesCount / 2] << " " << tmp << std::endl;
 
 		// data destruct
 		delete[] data;
